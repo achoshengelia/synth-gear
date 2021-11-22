@@ -36,7 +36,13 @@
 		<div class="mb-3">
 			<label class="form-label for="price" ">Price</label>
 		<div class="input-group">
-			<span id="basic-addon1"><select class="form-select" name="product[currency]"><option value="$">$</option><option value="₾">₾</option></select></span>
+			<span id="basic-addon1">
+				<select class="form-select" name="product[currency]">
+					<option value="€">€</option>
+					<option value="$">$</option>
+					<option value="₾">₾</option>
+				</select>
+			</span>
 			<input type="number" class="form-control text-muted" name="product[price]" id="price" placeholder="0.00" aria-label="Price" aria-describedby="basic-addon1" value="<%=product.price%>" required >
 			<div class="valid-feedback">
 				Looks Good!

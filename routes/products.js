@@ -22,6 +22,7 @@ router.post(
 	wrapAsync(async (req, res) => {
 		const product = new Product(req.body.product);
 		await product.save();
+		req.flash('success', `${product.title} was successfully added!`);
 		res.redirect('products');
 	})
 );
@@ -31,6 +32,10 @@ router.get(
 	wrapAsync(async (req, res) => {
 		const { id } = req.params;
 		const product = await Product.findById(id).populate('reviews');
+		if (!product) {
+			req.flash('error', 'Product was not found');
+			return res.redirect('/products');
+		}
 		res.render('products/show', { product });
 	})
 );
@@ -40,6 +45,10 @@ router.get(
 	wrapAsync(async (req, res) => {
 		const { id } = req.params;
 		const product = await Product.findById(id);
+		if (!product) {
+			req.flash('error', 'Product was not found');
+			return res.redirect('/products');
+		}
 		res.render('products/edit', { product });
 	})
 );
@@ -49,10 +58,14 @@ router.put(
 	validateProduct,
 	wrapAsync(async (req, res) => {
 		const { id } = req.params;
-		rm;
 		const product = await Product.findByIdAndUpdate(id, {
 			...req.body.product,
 		});
+		if (!product) {
+			req.flash('error', 'Product was not found');
+			return res.redirect('/products');
+		}
+		req.flash('success', `${product.title} was successfully updated!`);
 		res.redirect(`/products/${product.id}`);
 	})
 );
@@ -62,6 +75,7 @@ router.delete(
 	wrapAsync(async (req, res) => {
 		const { id } = req.params;
 		const deletedProduct = await Product.findByIdAndDelete(id);
+		req.flash('success', `${deletedProduct.title} was successfully deleted!`);
 		res.redirect('/products');
 	})
 );

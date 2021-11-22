@@ -11,7 +11,12 @@ router.post(
 	wrapAsync(async (req, res) => {
 		const { id } = req.params;
 		const review = new Review(req.body.review);
+
 		const product = await Product.findById(id);
+		if (!review || !product) {
+			req.flash('error', 'ERROR was not found');
+			return res.redirect('/products');
+		}
 		product.reviews.push(review);
 		await review.save();
 		await product.save();

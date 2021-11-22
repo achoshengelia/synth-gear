@@ -25,7 +25,9 @@
 	</head>
 	<body class="vh-100 d-flex flex-column">
 		<%- include('../partials/navbar')%>
-		<main class="container mt-3"><%- body%></main>
+		<main class="container mt-3">
+			<%- include('../partials/flash') %> <%- body%>
+		</main>
 		<%- include('../partials/footer')%>
 	</body>
 </html>
