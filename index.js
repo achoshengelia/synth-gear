@@ -10,6 +10,7 @@ const AppError = require('./utilities/AppError');
 // Router
 
 const productsRoutes = require('./routes/products');
+const reviewsRoutes = require('./routes/reviews');
 
 // Mongoose
 
@@ -36,10 +37,13 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/products', productsRoutes);
+app.use('/products/:id/reviews', reviewsRoutes);
 
 app.get('/', (req, res) => {
 	res.render('home');
 });
+
+// Error Handlers
 
 app.all('*', (req, res, next) => {
 	next(new AppError('Page not found :(', 404));
