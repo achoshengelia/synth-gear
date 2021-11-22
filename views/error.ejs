@@ -1,0 +1,8 @@
+<% layout('boilerplates/default')%>
+<div class="row">
+	<div class="alert alert-danger col-6 offset-3" role="alert">
+		<h1 class="alert-heading text-center"><%= err.status %></h1>
+		<h2 class="alert-heading text-center"><%= err.message %></h2>
+		<p><%= err.stack %></p>
+	</div>
+</div>
