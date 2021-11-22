@@ -1,0 +1,22 @@
+<% layout('boilerplates/default')%>
+<article class="container">
+	<h1 class="my-4 text-center">All Products</h1>
+	<section class="d-flex flex-wrap justify-content-center">
+		<% for (let product of products) {%>
+		<div class="card m-2 hover-scale" style="width: 18rem">
+			<a href="/products/<%=product.id%>">
+				<div class="card-body">
+					<h2 class="card-title text-center text-primary fs-3">
+						<%= product.title %>
+					</h2>
+					<img src="<%= product.image%> " class="card-img-top my-4" alt="..." />
+					<div class="text-primary text-center">
+						<%= product.currency %><%= product.price %>
+					</div>
+				</div>
+			</a>
+		</div>
+
+		<% } %>
+	</section>
+</article>

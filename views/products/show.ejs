@@ -1,0 +1,33 @@
+<% layout('boilerplates/default')%>
+
+<article class="row mb-3">
+	<div class="col-6">
+		<div class="card">
+			<img src="<%= product.image %> " class="card-img-top my-4" alt="..." />
+			<div class="card-body">
+				<h1 class="card-title fs-3"><%= product.title %></h1>
+				<p class="card-text"><%= product.description %></p>
+			</div>
+			<ul class="list-group list-group-flush">
+				<li class="list-group-item">
+					<%= product.currency %> <%= product.price %>
+				</li>
+				<li class="list-group-item">Kutuzavri</li>
+			</ul>
+			<div class="card-body">
+				<a
+					class="btn btn-dark card-link text-center"
+					href="/products/<%=product.id%>/edit"
+					>Edit</a
+				>
+				<form
+					action="/products/<%=product.id%>?_method=DELETE"
+					method="post"
+					class="d-inline"
+				>
+					<button class="btn btn-danger card-link d-inline">Delete</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</article>

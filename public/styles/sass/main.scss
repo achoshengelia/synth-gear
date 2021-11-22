@@ -1,0 +1,22 @@
+// Custom Styles
+$primary: teal;
+textarea {
+	resize: none;
+}
+a,
+a:link,
+a:visited {
+	color: white;
+	text-decoration: inherit;
+	&:hover {
+		color: inherit;
+	}
+}
+.hover-scale {
+	&:hover {
+		transform: scale(1.02);
+	}
+}
+
+// Boostrap Styles
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
