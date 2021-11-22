@@ -5,4 +5,4 @@ const reviewSchema = new Schema({
 	rating: Number,
 });
 
-module.exports = new model('Review', reviewSchema);
+module.exports = model('Review', reviewSchema);

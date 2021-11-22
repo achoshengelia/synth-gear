@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/product');
 const wrapAsync = require('../utilities/wrapAsync');
-const { validateProduct } = require('../utilities/middleware');
+const { validateProduct, isLoggedIn } = require('../utilities/middleware');
 
 router.get(
 	'/',
@@ -18,6 +18,7 @@ router.get('/new', (req, res) => {
 
 router.post(
 	'/',
+	isLoggedIn,
 	validateProduct,
 	wrapAsync(async (req, res) => {
 		const product = new Product(req.body.product);
@@ -42,6 +43,7 @@ router.get(
 
 router.get(
 	'/:id/edit',
+	isLoggedIn,
 	wrapAsync(async (req, res) => {
 		const { id } = req.params;
 		const product = await Product.findById(id);
@@ -55,6 +57,7 @@ router.get(
 
 router.put(
 	'/:id',
+	isLoggedIn,
 	validateProduct,
 	wrapAsync(async (req, res) => {
 		const { id } = req.params;
@@ -72,6 +75,7 @@ router.put(
 
 router.delete(
 	'/:id',
+	isLoggedIn,
 	wrapAsync(async (req, res) => {
 		const { id } = req.params;
 		const deletedProduct = await Product.findByIdAndDelete(id);

@@ -25,4 +25,4 @@ ProductSchema.post('findOneAndDelete', async function (doc) {
 	}
 });
 
-module.exports = new model('Product', ProductSchema);
+module.exports = model('Product', ProductSchema);

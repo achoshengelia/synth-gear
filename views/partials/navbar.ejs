@@ -18,6 +18,14 @@
 				<a class="nav-link" href="/products">Products</a>
 				<a class="nav-link" href="/products/new">Add Product</a>
 			</div>
+			<div class="navbar-nav ms-auto">
+				<% if (!currentUser) {%>
+				<a href="/login" class="nav-link">Login</a>
+				<a href="/register" class="nav-link">Register</a>
+				<% } %> <% if (currentUser) {%>
+				<a href="/logout" class="nav-link">Logout</a>
+				<% } %>
+			</div>
 		</div>
 	</div>
 </nav>
