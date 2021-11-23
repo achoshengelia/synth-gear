@@ -2,37 +2,19 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const wrapAsync = require('../utilities/wrapAsync');
-const User = require('../models/user');
+const {
+	renderRegisterForm,
+	registerUser,
+	renderLoginForm,
+	loginUser,
+	logoutUser,
+} = require('../controllers/users');
 
-router.get('/register', (req, res) => {
-	res.render('users/register');
-});
+router.get('/register', renderRegisterForm);
 
-router.post(
-	'/register',
-	wrapAsync(async (req, res) => {
-		try {
-			const { username, email, password } = req.body;
-			const user = new User({ username, email });
-			const registeredUser = await User.register(user, password);
-			req.login(registeredUser, (err) => {
-				if (err) {
-					next(err);
-				} else {
-					req.flash('success', 'Welcome to Synth Gear!');
-					res.redirect('/');
-				}
-			});
-		} catch (e) {
-			req.flash('error', e.message);
-			res.redirect('/register');
-		}
-	})
-);
+router.post('/register', wrapAsync(registerUser));
 
-router.get('/login', (req, res) => {
-	res.render('users/login');
-});
+router.get('/login', renderLoginForm);
 
 router.post(
 	'/login',
@@ -40,18 +22,9 @@ router.post(
 		failureFlash: true,
 		failureRedirect: '/login',
 	}),
-	(req, res) => {
-		const redirectUrl = req.session.returnTo || '/products';
-		req.flash('success', 'Welcome back!');
-		res.redirect(redirectUrl);
-		delete req.session.returnTo;
-	}
+	loginUser
 );
 
-router.get('/logout', (req, res) => {
-	req.logout();
-	req.flash('success', 'See you later!');
-	res.redirect('/');
-});
+router.get('/logout', logoutUser);
 
 module.exports = router;

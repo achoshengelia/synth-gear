@@ -1,113 +1,39 @@
 const express = require('express');
 const router = express.Router();
-const Product = require('../models/product');
 const wrapAsync = require('../utilities/wrapAsync');
 const {
 	validateProduct,
 	isLoggedIn,
 	isAuthorised,
 } = require('../utilities/middleware');
-const moment = require('moment');
-const review = require('../models/review');
+const {
+	index,
+	renderNewForm,
+	createNewProduct,
+	showProduct,
+	renderEditForm,
+	updateProduct,
+	deleteProduct,
+} = require('../controllers/products');
 
-router.get(
-	'/',
-	wrapAsync(async (req, res) => {
-		const products = await Product.find({});
-		res.render('products/', { products });
-	})
-);
+router.get('/', wrapAsync(index));
 
-router.get('/new', isLoggedIn, (req, res) => {
-	res.render('products/new');
-});
+router.get('/new', isLoggedIn, renderNewForm);
 
-router.post(
-	'/',
-	isLoggedIn,
-	validateProduct,
-	wrapAsync(async (req, res) => {
-		const product = new Product(req.body.product);
-		const datePosted = moment(new Date(Date.now())).format(
-			'YYYY-MM-DD h:mm:ss a'
-		);
-		product.user = req.user.id;
-		product.date = datePosted;
-		await product.save();
-		req.flash('success', `${product.title} was successfully added!`);
-		res.redirect('products');
-	})
-);
+router.post('/', isLoggedIn, validateProduct, wrapAsync(createNewProduct));
 
-router.get(
-	'/:id',
-	wrapAsync(async (req, res) => {
-		const { id } = req.params;
-		const product = await Product.findById(id)
-			.populate({
-				path: 'reviews',
-				populate: {
-					path: 'user',
-				},
-			})
-			.populate('user');
-		if (!product) {
-			req.flash('error', 'Product was not found');
-			return res.redirect('/products');
-		}
-		const productDatePosted = moment(new Date(product.date));
-		for (let review of product.reviews) {
-			const reviewDatePosted = moment(new Date(review.date));
-			review.date = reviewDatePosted.fromNow();
-		}
-		product.date = productDatePosted.fromNow();
-		res.render('products/show', { product });
-	})
-);
+router.get('/:id', wrapAsync(showProduct));
 
-router.get(
-	'/:id/edit',
-	isLoggedIn,
-	isAuthorised,
-	wrapAsync(async (req, res) => {
-		const { id } = req.params;
-		const product = await Product.findById(id);
-		if (!product) {
-			req.flash('error', 'Product was not found');
-			return res.redirect('/products');
-		}
-		res.render('products/edit', { product });
-	})
-);
+router.get('/:id/edit', isLoggedIn, isAuthorised, wrapAsync(renderEditForm));
 
 router.put(
 	'/:id',
 	isLoggedIn,
 	isAuthorised,
 	validateProduct,
-	wrapAsync(async (req, res) => {
-		const { id } = req.params;
-		const product = await Product.findByIdAndUpdate(id, {
-			...req.body.product,
-		});
-		if (!product) {
-			req.flash('error', 'Product was not found');
-			return res.redirect('/products');
-		}
-		req.flash('success', `${product.title} was successfully updated!`);
-		res.redirect(`/products/${product.id}`);
-	})
+	wrapAsync(updateProduct)
 );
 
-router.delete(
-	'/:id',
-	isLoggedIn,
-	wrapAsync(async (req, res) => {
-		const { id } = req.params;
-		const deletedProduct = await Product.findByIdAndDelete(id);
-		req.flash('success', `${deletedProduct.title} was successfully deleted!`);
-		res.redirect('/products');
-	})
-);
+router.delete('/:id', isLoggedIn, wrapAsync(deleteProduct));
 
 module.exports = router;
