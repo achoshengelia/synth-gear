@@ -3,16 +3,17 @@ const router = express.Router({ mergeParams: true });
 const Product = require('../models/product');
 const Review = require('../models/review');
 const wrapAsync = require('../utilities/wrapAsync');
-const { validateReview } = require('../utilities/middleware');
+const { validateReview, isLoggedIn } = require('../utilities/middleware');
 
 router.post(
 	'/',
+	isLoggedIn,
 	validateReview,
 	wrapAsync(async (req, res) => {
 		const { id } = req.params;
 		const review = new Review(req.body.review);
-
 		const product = await Product.findById(id);
+		review.user = req.user.id;
 		if (!review || !product) {
 			req.flash('error', 'ERROR was not found');
 			return res.redirect('/products');

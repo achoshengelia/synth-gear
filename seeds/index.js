@@ -23,6 +23,7 @@ const seedDB = async () => {
 			currency: product.currency,
 			description: product.description,
 			image: product.image,
+			user: '619c02f3561902b0d602f5bb',
 		});
 		await newProduct.save();
 	}

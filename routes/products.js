@@ -2,7 +2,11 @@ const express = require('express');
 const router = express.Router();
 const Product = require('../models/product');
 const wrapAsync = require('../utilities/wrapAsync');
-const { validateProduct, isLoggedIn } = require('../utilities/middleware');
+const {
+	validateProduct,
+	isLoggedIn,
+	isAuthorised,
+} = require('../utilities/middleware');
 
 router.get(
 	'/',
@@ -12,7 +16,7 @@ router.get(
 	})
 );
 
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
 	res.render('products/new');
 });
 
@@ -22,6 +26,7 @@ router.post(
 	validateProduct,
 	wrapAsync(async (req, res) => {
 		const product = new Product(req.body.product);
+		product.user = req.user.id;
 		await product.save();
 		req.flash('success', `${product.title} was successfully added!`);
 		res.redirect('products');
@@ -32,7 +37,14 @@ router.get(
 	'/:id',
 	wrapAsync(async (req, res) => {
 		const { id } = req.params;
-		const product = await Product.findById(id).populate('reviews');
+		const product = await Product.findById(id)
+			.populate({
+				path: 'reviews',
+				populate: {
+					path: 'user',
+				},
+			})
+			.populate('user');
 		if (!product) {
 			req.flash('error', 'Product was not found');
 			return res.redirect('/products');
@@ -44,6 +56,7 @@ router.get(
 router.get(
 	'/:id/edit',
 	isLoggedIn,
+	isAuthorised,
 	wrapAsync(async (req, res) => {
 		const { id } = req.params;
 		const product = await Product.findById(id);
@@ -58,6 +71,7 @@ router.get(
 router.put(
 	'/:id',
 	isLoggedIn,
+	isAuthorised,
 	validateProduct,
 	wrapAsync(async (req, res) => {
 		const { id } = req.params;

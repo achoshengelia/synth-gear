@@ -14,8 +14,8 @@ router.post(
 		try {
 			const { username, email, password } = req.body;
 			const user = new User({ username, email });
-			const newUser = await User.register(user, password);
-			req.login(newUser, (err) => {
+			const registeredUser = await User.register(user, password);
+			req.login(registeredUser, (err) => {
 				if (err) {
 					next(err);
 				} else {

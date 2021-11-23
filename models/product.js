@@ -7,6 +7,10 @@ const ProductSchema = new Schema({
 	currency: String,
 	description: String,
 	image: String,
+	user: {
+		type: Schema.Types.ObjectId,
+		ref: 'User',
+	},
 	reviews: [
 		{
 			type: Schema.Types.ObjectId,
