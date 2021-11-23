@@ -4,6 +4,7 @@ const Product = require('../models/product');
 const Review = require('../models/review');
 const wrapAsync = require('../utilities/wrapAsync');
 const { validateReview, isLoggedIn } = require('../utilities/middleware');
+const moment = require('moment');
 
 router.post(
 	'/',
@@ -13,11 +14,15 @@ router.post(
 		const { id } = req.params;
 		const review = new Review(req.body.review);
 		const product = await Product.findById(id);
-		review.user = req.user.id;
 		if (!review || !product) {
 			req.flash('error', 'ERROR was not found');
 			return res.redirect('/products');
 		}
+		const datePosted = moment(new Date(Date.now())).format(
+			'YYYY-MM-DD h:mm:ss a'
+		);
+		review.user = req.user.id;
+		review.date = datePosted;
 		product.reviews.push(review);
 		await review.save();
 		await product.save();

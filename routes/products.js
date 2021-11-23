@@ -8,6 +8,7 @@ const {
 	isAuthorised,
 } = require('../utilities/middleware');
 const moment = require('moment');
+const review = require('../models/review');
 
 router.get(
 	'/',
@@ -54,8 +55,12 @@ router.get(
 			req.flash('error', 'Product was not found');
 			return res.redirect('/products');
 		}
-		const datePosted = moment(new Date(product.date));
-		product.date = datePosted.fromNow();
+		const productDatePosted = moment(new Date(product.date));
+		for (let review of product.reviews) {
+			const reviewDatePosted = moment(new Date(review.date));
+			review.date = reviewDatePosted.fromNow();
+		}
+		product.date = productDatePosted.fromNow();
 		res.render('products/show', { product });
 	})
 );

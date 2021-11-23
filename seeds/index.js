@@ -24,7 +24,7 @@ const seedDB = async () => {
 			description: product.description,
 			image: product.image,
 			user: '619c02f3561902b0d602f5bb',
-			date: '2021-11-18 8:30',
+			date: '2021-11-18 8:30 pm',
 		});
 		await newProduct.save();
 	}
