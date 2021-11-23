@@ -8,11 +8,14 @@
 				<h1 class="card-title fs-3"><%= product.title %></h1>
 				<p class="card-text"><%= product.description %></p>
 			</div>
-			<ul class="list-group list-group-flush">
-				<li class="list-group-item">
-					<%= product.currency %> <%= product.price %>
+			<ul class="list-group list-group-flush ">
+				<li class="list-group-item">Posted by <strong><i><%= product.user.username %> </i></strong><%= product.date %></li>
+				<li class="list-group-item text-primary">
+					<strong>
+					<%= product.currency %><%= product.price %>
+				</strong>
 				</li>
-				<li class="list-group-item">Posted by <strong><%= product.user.username %> </strong></li>
+				
 			</ul>
 			<% if (currentUser && currentUser.equals(product.user.id)) {%> 
 			<div class="card-body">
@@ -42,9 +45,10 @@
 					Rated: <%=review.rating%> stars
 				</p>
 				<h6 class="card-subtitle mb-2">Posted by <strong><%= review.user.username %> </strong></h6>
+				
 				<p class="card-text"><%= review.body %></p>
 			</div>
-			<% if (currentUser && currentUser.equals(product.user.id)) {%> 
+			<% if (currentUser && review.user.equals(currentUser) || product.user.equals(currentUser)) {%> 
 			<form
 				action="/products/<%=product.id%>/reviews/<%=review.id%>?_method=DELETE"
 				method="POST"

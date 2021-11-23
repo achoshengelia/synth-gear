@@ -7,6 +7,7 @@ const {
 	isLoggedIn,
 	isAuthorised,
 } = require('../utilities/middleware');
+const moment = require('moment');
 
 router.get(
 	'/',
@@ -26,7 +27,11 @@ router.post(
 	validateProduct,
 	wrapAsync(async (req, res) => {
 		const product = new Product(req.body.product);
+		const datePosted = moment(new Date(Date.now())).format(
+			'YYYY-MM-DD h:mm:ss a'
+		);
 		product.user = req.user.id;
+		product.date = datePosted;
 		await product.save();
 		req.flash('success', `${product.title} was successfully added!`);
 		res.redirect('products');
@@ -49,6 +54,8 @@ router.get(
 			req.flash('error', 'Product was not found');
 			return res.redirect('/products');
 		}
+		const datePosted = moment(new Date(product.date));
+		product.date = datePosted.fromNow();
 		res.render('products/show', { product });
 	})
 );
