@@ -14,22 +14,15 @@ textarea {
 	resize: none;
 }
 .hover-scale {
+	box-shadow: 3px 3px 20px rgba(80, 78, 78, 0.2);
 	&:hover {
 		transform: scale(1.02);
+		box-shadow: 3px 3px 20px rgba(80, 78, 78, 0.4);
 	}
 }
 .login {
 	min-height: 37rem;
 }
-// .btn {
-// 	&.btn-danger {
-// 		background-color: $bg-dark;
-// 		color: white;
-// 		border: none;
-// 		&:hover {
-// 			background-color: lighten($bg-dark, 10%);
-// 		}
-// 	}
-// }
+
 // Boostrap Styles
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';
