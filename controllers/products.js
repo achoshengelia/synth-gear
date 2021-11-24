@@ -22,6 +22,7 @@ module.exports.createNewProduct = async (req, res) => {
 	}));
 	product.user = req.user.id;
 	product.date = datePosted;
+	console.log(product);
 	await product.save();
 	req.flash('success', `${product.title} was successfully added!`);
 	res.redirect('products');

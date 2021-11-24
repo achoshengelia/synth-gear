@@ -1,2 +1,48 @@
-<%- include('./partials/flash') %>
-<h1>Home Page</h1>
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script
+			defer
+			language="javascript"
+			src="/scripts/bootstrap.min.js"
+		></script>
+		<link rel="stylesheet" href="/styles/css/main.min.css" />
+		<link rel="stylesheet" href="/styles/css/home.css" />
+		<script
+			defer
+			language="javascript"
+			src="/scripts/bootstrapValidate.js"
+		></script>
+		<title>Synth Gear</title>
+	</head>
+	<body class="d-flex flex-column text-center text-white">
+		<%- include('./partials/flash') %>
+		<header class="mb-auto"></header>
+		<main class="px-3">
+			<h2 class="fs-1">Welcome to Synth Gear!</h2>
+			<p class="lead fs-4">
+				A platform created to share, review and explore <br />the amazing world
+				of synthesizers! <br />
+			</p>
+
+			<!-- <h1 class="float-md-left mb-0 fs-3">Synth Gear</h1> -->
+			<nav class="nav justify-content-center fs-5 mt-4">
+				<a class="nav-link active" aria-current="page" href="#">Home</a>
+				<a class="nav-link" href="/products">Products</a>
+				<% if(!currentUser) { %>
+				<a class="nav-link" href="/login">Login</a>
+				<a class="nav-link" href="/register">Register</a>
+				<% } else { %>
+				<a class="nav-link" href="/logout">Logout</a>
+				<% } %>
+			</nav>
+		</main>
+
+		<footer class="mt-auto mb-3 text-white-50">
+			<p>&copy; 2021</p>
+		</footer>
+	</body>
+</html>

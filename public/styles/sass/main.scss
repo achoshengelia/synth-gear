@@ -1,22 +1,35 @@
 // Custom Styles
 $primary: teal;
-textarea {
-	resize: none;
-}
+$bg-dark: #ced4da;
 a,
 a:link,
 a:visited {
 	color: white;
 	text-decoration: inherit;
 	&:hover {
-		color: inherit;
+		color: white;
 	}
+}
+textarea {
+	resize: none;
 }
 .hover-scale {
 	&:hover {
 		transform: scale(1.02);
 	}
 }
-
+.login {
+	min-height: 37rem;
+}
+// .btn {
+// 	&.btn-danger {
+// 		background-color: $bg-dark;
+// 		color: white;
+// 		border: none;
+// 		&:hover {
+// 			background-color: lighten($bg-dark, 10%);
+// 		}
+// 	}
+// }
 // Boostrap Styles
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';

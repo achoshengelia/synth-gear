@@ -27,12 +27,12 @@ const seedDB = async () => {
 			date: '2021-11-18 8:30 pm',
 			images: [
 				{
-					url: 'https://res.cloudinary.com/dqfcbw5tz/image/upload/v1637698805/Synth%20Gear/e3bnuhz094vurxldjjwq.jpg',
-					filename: 'Synth Gear/e3bnuhz094vurxldjjwq',
+					url: 'https://res.cloudinary.com/dqfcbw5tz/image/upload/v1637747245/Synth%20Gear/r7pzv8wesio7vvarjbbp.jpg',
+					filename: 'Synth Gear/r7pzv8wesio7vvarjbbp',
 				},
 				{
-					url: 'https://res.cloudinary.com/dqfcbw5tz/image/upload/v1637698805/Synth%20Gear/ujxikpzhlqoawudlszdz.jpg',
-					filename: 'Synth Gear/ujxikpzhlqoawudlszdz',
+					url: 'https://res.cloudinary.com/dqfcbw5tz/image/upload/v1637747244/Synth%20Gear/yhbjsc4mtenharinuv0d.jpg',
+					filename: 'Synth Gear/yhbjsc4mtenharinuv0d',
 				},
 			],
 		});

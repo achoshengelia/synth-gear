@@ -1,0 +1,32 @@
+body {
+	height: 100vh;
+	background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+		url('https://images.unsplash.com/photo-1611426358403-459d85ab2ee2?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1771&q=80');
+	background-size: cover;
+	background-position: center;
+}
+.cover-container {
+	max-width: 60vw;
+}
+
+.nav-link {
+	padding: 0.25rem 0;
+	margin-left: 1rem;
+	border-bottom: 0.25rem solid transparent;
+	opacity: 0.7;
+}
+
+.nav-link:hover {
+	opacity: 1;
+}
+
+.nav-link.active {
+	color: white;
+	opacity: 1;
+}
+
+.btn-secondary,
+.btn-secondary:hover {
+	color: #333;
+	text-shadow: none;
+}

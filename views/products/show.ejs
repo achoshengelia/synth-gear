@@ -1,6 +1,6 @@
 <% layout('boilerplates/default')%>
 
-<article class="row mb-3">
+<article class="row mb-3 ">
 	<div class="col-6">
 		<div class="card">
 			<div
@@ -12,7 +12,7 @@
 				<% if (product.images.length){ %>
 					<% product.images.map((img, i) => {%>
 					<div class="carousel-item <%= i === 0 ? 'active' : '' %>">
-						<img src="<%= img.url %> " class="d-block w-100" alt="..." />
+						<img src="<%= img.url %> " class="d-block w-100" alt="..."  style="max-height: 23rem; object-fit: contain; "/>
 					</div>
 					<% }) %>
 				<% } else{%> 
@@ -59,7 +59,7 @@
 			<% if (currentUser && currentUser.equals(product.user.id)) {%> 
 			<div class="card-body">
 				<a
-					class="btn btn-dark card-link text-center"
+					class="btn btn-info card-link text-center"
 					href="/products/<%=product.id%>/edit"
 					>Edit</a
 				>
@@ -68,7 +68,7 @@
 					method="post"
 					class="d-inline"
 				>
-					<button class="btn btn-danger card-link d-inline">Delete</button>
+					<button class="btn btn-danger card-link d-inline">Delete Product</button>
 				</form>
 			</div>
 			<% } %> 
@@ -86,15 +86,15 @@
 				<h6 class="card-subtitle mb-2">Posted by <strong><i><%= review.user.username %></i></strong> <%= review.date %>  </h6>
 				
 				<p class="card-text"><%= review.body %></p>
+				<% if (currentUser && review.user.equals(currentUser) || product.user.equals(currentUser)) {%> 
+				<form
+					action="/products/<%=product.id%>/reviews/<%=review.id%>?_method=DELETE"
+					method="POST"
+				>
+					<button class="btn btn-danger btn-lg btn-sm" type="submit">Delete</button>
+				</form>
+				<% } %> 
 			</div>
-			<% if (currentUser && review.user.equals(currentUser) || product.user.equals(currentUser)) {%> 
-			<form
-				action="/products/<%=product.id%>/reviews/<%=review.id%>?_method=DELETE"
-				method="POST"
-			>
-				<button class="btn btn-danger btn-sm" type="submit">Delete</button>
-			</form>
-			<% } %> 
 		</div>
 		<% } %>
 		<% if (currentUser) {%> 
@@ -162,6 +162,7 @@
 				cols="30"
 				rows="3"
 				class="form-control"
+				maxlength="250"
 				required
 				style="resize: none"
 			></textarea>
