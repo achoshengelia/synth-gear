@@ -19,6 +19,8 @@ const usersRoutes = require('./routes/users');
 
 // Mongoose
 
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/synth-gear';
+
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/synth-gear', {
 	useNewUrlParser: true,
@@ -35,11 +37,22 @@ const methodOverride = require('method-override');
 
 // Session & Authorisation
 
+const secret = process.env.SECRET || 'Shrek';
+
 const session = require('express-session');
+const MongoStore = require('connect-mongo');
+const store = MongoStore.create({
+	mongoUrl: dbUrl,
+	touchAfter: 24 * 60 * 60,
+	crypto: {
+		secret: secret,
+	},
+});
 const flash = require('connect-flash');
 const sessionConfig = {
+	store,
 	name: 'whatareyoudoinghere?',
-	secret: 'secret',
+	secret: secret,
 	resave: false,
 	saveUninitialized: true,
 	cookie: {
