@@ -25,6 +25,16 @@ const seedDB = async () => {
 			image: product.image,
 			user: '619c02f3561902b0d602f5bb',
 			date: '2021-11-18 8:30 pm',
+			images: [
+				{
+					url: 'https://res.cloudinary.com/dqfcbw5tz/image/upload/v1637698805/Synth%20Gear/e3bnuhz094vurxldjjwq.jpg',
+					filename: 'Synth Gear/e3bnuhz094vurxldjjwq',
+				},
+				{
+					url: 'https://res.cloudinary.com/dqfcbw5tz/image/upload/v1637698805/Synth%20Gear/ujxikpzhlqoawudlszdz.jpg',
+					filename: 'Synth Gear/ujxikpzhlqoawudlszdz',
+				},
+			],
 		});
 		await newProduct.save();
 	}

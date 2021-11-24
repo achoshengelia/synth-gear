@@ -1,6 +1,6 @@
 const Product = require('../models/product');
 const moment = require('moment');
-const review = require('../models/review');
+const { cloudinary } = require('../cloudinary');
 
 module.exports.index = async (req, res) => {
 	const products = await Product.find({});
@@ -16,6 +16,10 @@ module.exports.createNewProduct = async (req, res) => {
 	const datePosted = moment(new Date(Date.now())).format(
 		'YYYY-MM-DD h:mm:ss a'
 	);
+	product.images = req.files.map((file) => ({
+		url: file.path,
+		filename: file.filename,
+	}));
 	product.user = req.user.id;
 	product.date = datePosted;
 	await product.save();
@@ -65,13 +69,33 @@ module.exports.updateProduct = async (req, res) => {
 		req.flash('error', 'Product was not found');
 		return res.redirect('/products');
 	}
+	const newImgs = req.files.map((file) => ({
+		url: file.path,
+		filename: file.filename,
+	}));
+
+	product.images.push(...newImgs);
+	await product.save();
+
+	if (req.body.deleteImages) {
+		for (let filename of req.body.deleteImages) {
+			await cloudinary.uploader.destroy(filename);
+		}
+		await product.updateOne({
+			$pull: { images: { filename: { $in: req.body.deleteImages } } },
+		});
+	}
 	req.flash('success', `${product.title} was successfully updated!`);
 	res.redirect(`/products/${product.id}`);
 };
 
 module.exports.deleteProduct = async (req, res) => {
 	const { id } = req.params;
-	const deletedProduct = await Product.findByIdAndDelete(id);
-	req.flash('success', `${deletedProduct.title} was successfully deleted!`);
+	const product = await Product.findById(id);
+	product.images.forEach(
+		async (image) => await cloudinary.uploader.destroy(image.filename)
+	);
+	const deletedProduct = await Product.deleteOne(product);
+	req.flash('success', `${product.title} was successfully deleted!`);
 	res.redirect('/products');
 };

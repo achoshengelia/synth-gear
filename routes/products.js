@@ -15,12 +15,21 @@ const {
 	updateProduct,
 	deleteProduct,
 } = require('../controllers/products');
+const { storage } = require('../cloudinary');
+const multer = require('multer');
+const upload = multer({ storage });
 
 router.get('/', wrapAsync(index));
 
 router.get('/new', isLoggedIn, renderNewForm);
 
-router.post('/', isLoggedIn, validateProduct, wrapAsync(createNewProduct));
+router.post(
+	'/',
+	isLoggedIn,
+	upload.array('product[image]'),
+	validateProduct,
+	wrapAsync(createNewProduct)
+);
 
 router.get('/:id', wrapAsync(showProduct));
 
@@ -30,6 +39,7 @@ router.put(
 	'/:id',
 	isLoggedIn,
 	isAuthorised,
+	upload.array('product[image]'),
 	validateProduct,
 	wrapAsync(updateProduct)
 );

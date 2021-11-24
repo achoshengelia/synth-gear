@@ -3,7 +3,46 @@
 <article class="row mb-3">
 	<div class="col-6">
 		<div class="card">
-			<img src="<%= product.image %> " class="card-img-top my-4" alt="..." />
+			<div
+			id="productCarousel"
+			class="carousel slide"
+			data-bs-ride="carousel"
+		>
+			<div class="carousel-inner">
+				<% if (product.images.length){ %>
+					<% product.images.map((img, i) => {%>
+					<div class="carousel-item <%= i === 0 ? 'active' : '' %>">
+						<img src="<%= img.url %> " class="d-block w-100" alt="..." />
+					</div>
+					<% }) %>
+				<% } else{%> 
+					<div class="carousel-item active">
+						<img src="https://st3.depositphotos.com/23594922/31822/v/600/depositphotos_318221368-stock-illustration-missing-picture-page-for-website.jpg" class="d-block w-100" alt="..." />
+					</div>
+				<% } %> 
+			</div>
+			<% if (product.images.length > 1){ %>
+			<button
+				class="carousel-control-prev"
+				type="button"
+				data-bs-target="#productCarousel"
+				data-bs-slide="prev"
+			>
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button
+				class="carousel-control-next"
+				type="button"
+				data-bs-target="#productCarousel"
+				data-bs-slide="next"
+			>
+				<span class="carousel-control-next-icon" aria-hidden="true"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
+			<% } %>
+		</div>
+			
 			<div class="card-body">
 				<h1 class="card-title fs-3"><%= product.title %></h1>
 				<p class="card-text"><%= product.description %></p>

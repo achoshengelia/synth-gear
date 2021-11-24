@@ -1,6 +1,15 @@
 const { Schema, model } = require('mongoose');
 const Review = require('./review');
 
+const imageSchema = new Schema({
+	url: String,
+	filename: String,
+});
+
+imageSchema.virtual('thumbnail').get(function () {
+	return this.url.replace('upload', 'upload/w_200');
+});
+
 const ProductSchema = new Schema({
 	title: String,
 	price: String,
@@ -8,6 +17,7 @@ const ProductSchema = new Schema({
 	description: String,
 	image: String,
 	date: String,
+	images: [imageSchema],
 	user: {
 		type: Schema.Types.ObjectId,
 		ref: 'User',
