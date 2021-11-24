@@ -27,8 +27,6 @@
 		"sanitize-html": "^2.6.0"
 	},
 	"scripts": {
-		"start": "nodemon index.js",
-		"seed": "node seeds/index.js",
-		"startServer": "node index.js"
+		"start": "node index.js"
 	}
 }
