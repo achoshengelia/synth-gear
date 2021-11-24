@@ -28,6 +28,7 @@
 	},
 	"scripts": {
 		"start": "nodemon index.js",
-		"seed": "node seeds/index.js"
+		"seed": "node seeds/index.js",
+		"startServer": "node index.js"
 	}
 }
