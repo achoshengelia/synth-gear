@@ -1,7 +1,7 @@
 <% layout('boilerplates/default')%>
 
-<article class="row mb-3 ">
-	<div class="col-6">
+<article class="d-lg-flex gap-4 mb-3 ">
+	<div class="col-lg-6">
 		<div class="card">
 			<div
 			id="productCarousel"
@@ -74,10 +74,14 @@
 			<% } %> 
 		</div>
 	</div>
-	<div class="col-6">
+	<div class="col-lg-6">
 		 <% if (product.reviews.length > 0){ %>
 		<h3 class="mb-3">All Reviews:</h3>
-		<% } %> <% for (let review of product.reviews) { %>
+		<% } else{%> 
+			<h3 class="">No reviews yet...</h3>
+			<p class="fs-5 mb-5 mt-3">Be the first to share what you think!</p>
+		<% } %> 
+		<% for (let review of product.reviews) { %>
 		<div class="card mb-3">
 			<div class="card-body">
 				<p class="starability-result" data-rating="<%=review.rating%>">
